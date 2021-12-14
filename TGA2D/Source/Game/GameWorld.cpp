@@ -19,41 +19,17 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myText = new Tga2D::CText();
-	myEnemies.Init();
-	myPlayer.Init({ 1,1 , 0, 1 }, { 640, 360 }, 250, myEnemies);
+	
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)
 {
-	myText->SetPosition({ 0.5f, 0.5f});
-	myText->SetText("wellcome to space invaders press space To Start");
-	if(aInputHandler.GetKeyDown(VK_SPACE))
-	{
-		myPlayGmae = true;
-	}
-	if (myPlayGmae)
-	{
-
-		aTimeDelta;
-		aInputHandler;
-		myEnemies.Update(aTimeDelta);
-		myPlayer.Update(aTimeDelta, aInputHandler);
-		if(myPlayer.myEnemy.Stop())
-		{
-			myText->SetText("game over");
-			myPlayGmae = true;
-			
-		}
-	}
+	aTimeDelta;
+	aTotalTime;
+	aInputHandler;
 }
 
 void CGameWorld::Render()
 {
-	myEnemies.Render();
-	if(!myPlayGmae)
-	{
-		myText->Render();
-	}
-	myPlayer.Render();
+
 }

@@ -4,20 +4,8 @@
     <ClCompile Include="..\Source\Game\Game.cpp" />
     <ClCompile Include="..\Source\Game\GameWorld.cpp" />
     <ClCompile Include="..\Source\Game\stdafx.cpp" />
-    <ClCompile Include="..\Source\Game\Player.cpp">
-      <Filter>TENTAMENT\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Bullet.cpp">
-      <Filter>TENTAMENT\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\BulletFactory.cpp">
-      <Filter>TENTAMENT\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Enemy.cpp">
-      <Filter>TENTAMENT\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\EnemyFactory.cpp">
-      <Filter>TENTAMENT\Enemy</Filter>
+    <ClCompile Include="..\Source\Game\Utility\Collider.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -26,34 +14,13 @@
     <ClInclude Include="..\Source\Game\resource.h" />
     <ClInclude Include="..\Source\Game\stdafx.h" />
     <ClInclude Include="..\Source\Game\targetver.h" />
-    <ClInclude Include="..\Source\Game\Player.h">
-      <Filter>TENTAMENT\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Bullet.h">
-      <Filter>TENTAMENT\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\BulletFactory.h">
-      <Filter>TENTAMENT\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Enemy.h">
-      <Filter>TENTAMENT\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\EnemyFactory.h">
-      <Filter>TENTAMENT\Enemy</Filter>
+    <ClInclude Include="..\Source\Game\Utility\Collider.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="TENTAMENT">
-      <UniqueIdentifier>{74c7037b-29c9-4ea3-bd62-794bbfd02b4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TENTAMENT\Player">
-      <UniqueIdentifier>{f47af26f-1733-4d8e-b53d-8798c71a9d48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TENTAMENT\Bullet">
-      <UniqueIdentifier>{544a7c50-a4db-4c6b-8428-6d3399e9659f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TENTAMENT\Enemy">
-      <UniqueIdentifier>{5ce7a79e-e388-44fd-86ef-7bedc7f87117}</UniqueIdentifier>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{7ec22a66-324f-4815-8d91-bfded3798fb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

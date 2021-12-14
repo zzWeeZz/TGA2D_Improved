@@ -94,7 +94,7 @@ void CGame::UpdateCallBack()
 {
 	myTimer.Update();
 	myInputHandler.UpdateInput();
-	myGameWorld.Update(myTimer.GetDeltaTime(), myTimer.GetTotalTime(), myInputHandler);
+	myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
 	myGameWorld.Render();
 
 }
