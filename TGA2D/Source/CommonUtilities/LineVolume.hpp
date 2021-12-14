@@ -15,6 +15,7 @@ namespace CommonUtilities
 		LineVolume(const std::vector<Line<T>>& aLineList);
 		// Add a Line to the LineVolume.
 		void AddLine(const Line<T>& aLine);
+		void UpdateLines(const Line<T>& aLine, const int& aAt);
 		// Returns whether a point is inside the LineVolume: it is inside when the point is
 		// on the line or on the side the normal is pointing away from for all the lines in
 		// the LineVolume.
@@ -41,6 +42,13 @@ namespace CommonUtilities
 	{
 		myLines.push_back(aLine);
 	}
+
+	template <class T>
+	void LineVolume<T>::UpdateLines(const Line<T>& aLine, const int& aAt)
+	{
+		myLines[aAt] = aLine;
+	}
+
 
 	template <class T>
 	bool LineVolume<T>::IsInside(const Vector2<T>& aPosition)

@@ -154,6 +154,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Game\Character.h" />
     <ClInclude Include="..\Source\Game\Game.h" />
     <ClInclude Include="..\Source\Game\GameWorld.h" />
     <ClInclude Include="..\Source\Game\resource.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="..\Source\Game\Utility\Collider.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\Game\Character.cpp" />
     <ClCompile Include="..\Source\Game\Game.cpp" />
     <ClCompile Include="..\Source\Game\GameWorld.cpp" />
     <ClCompile Include="..\Source\Game\stdafx.cpp">

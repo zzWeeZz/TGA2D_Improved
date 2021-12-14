@@ -7,6 +7,7 @@
     <ClCompile Include="..\Source\Game\Utility\Collider.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Game\Game.h" />
@@ -17,6 +18,7 @@
     <ClInclude Include="..\Source\Game\Utility\Collider.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Character.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">

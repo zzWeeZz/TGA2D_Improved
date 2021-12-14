@@ -1,5 +1,6 @@
 #pragma once
 #include <..\..\Source\CommonUtilities\InputHandler.hpp>
+#include "Character.h"
 
 #define PI 3.14159265358979323846f
 #define RAD_TO_DEG(a) ((180/PI) * a)
@@ -20,4 +21,6 @@ public:
 	void Render();
 	~CGameWorld();
 private:
+	Character myCharacterOne;
+	Character myCharacterTwo;
 };

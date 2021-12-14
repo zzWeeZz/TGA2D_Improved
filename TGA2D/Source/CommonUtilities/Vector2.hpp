@@ -18,6 +18,7 @@ namespace CommonUtilities
 		//Copy constructor (compiler generated)
 		Vector2<T>(const Vector2<T>& aVector) = default;
 		//Assignment operator (compiler generated)
+		bool operator==(const Vector2& anVector2) const;
 		Vector2<T>& operator=(const Vector2<T>& aVector2) = default;
 		//Returns the squared length of the vector
 		T LengthSqr() const;
@@ -50,6 +51,16 @@ namespace CommonUtilities
 	{
 		x = aX;
 		y = aY;
+	}
+
+	template <class T>
+	bool Vector2<T>::operator==(const Vector2& anVector2) const
+	{
+		if (x == anVector2.x && y == anVector2.y)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	template<class T>
