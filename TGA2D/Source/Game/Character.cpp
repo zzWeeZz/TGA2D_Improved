@@ -7,13 +7,6 @@
 #include "tga2d/texture/texture_manager.h"
 #include <iostream>
 
-Character::Character(int aLeftKey, int aRightKey, Collider* aEnemyCollider) : myLeftKey(aLeftKey),  myRightKey(aRightKey), myCollider(myPosition, mySize), myEnemyCollider(aEnemyCollider)
-{
-	myPosition = { 1280 / 2, 720 / 2 };
-	mySize = { 300, 300 };
-	myColor = { 1, 1,1, 1 };
-}
-
 void Character::Init()
 {
 	myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/square.dds");
@@ -29,22 +22,7 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	{
 		myPosition.x += 100 * aTimeDelta;
 	}
-	myCollider.UpdateCollider();
-	myEnemyCollider->UpdateCollider();
-	if (myCollider.OnEnter(*myEnemyCollider))
-	{
-		std::cout << "Entered \n";
-	}
-	if (myCollider.OnStay(*myEnemyCollider))
-	{
-		myColor.Set(1, 0, 0, 1);
-		std::cout << "is Inside!\n";
-	}
-	if (myCollider.OnExit(*myEnemyCollider))
-	{
-		myColor.Set(1, 1, 1, 1);
-		std::cout << " Exit\n";
-	}
+
 }
 
 void Character::Render()

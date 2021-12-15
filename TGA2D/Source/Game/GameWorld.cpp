@@ -11,8 +11,7 @@
 #include "tga2d/text/text.h"
 
 
-CGameWorld::CGameWorld() : myCharacterOne(VK_LEFT, VK_RIGHT, &myCharacterTwo.myCollider),
-						   myCharacterTwo(A_KEY, D_KEY, &myCharacterOne.myCollider)
+CGameWorld::CGameWorld()
 {
 }
 
@@ -21,7 +20,7 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	
+	myCharacter.Init();
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)
@@ -29,12 +28,10 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTimeDelta;
 	aTotalTime;
 	aInputHandler;
-	myCharacterOne.Update(aTimeDelta, aInputHandler);
-	myCharacterTwo.Update(aTimeDelta, aInputHandler);
+	myCharacter.Update(aTimeDelta, aInputHandler);
 }
 
 void CGameWorld::Render()
 {
-	myCharacterOne.Render();
-	myCharacterTwo.Render();
+	myCharacter.Render();
 }

@@ -21,6 +21,5 @@ public:
 	void Render();
 	~CGameWorld();
 private:
-	Character myCharacterOne;
-	Character myCharacterTwo;
+	Character myCharacter;
 };

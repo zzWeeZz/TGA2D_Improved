@@ -3,18 +3,16 @@
 #include <..\CommonUtilities/InputHandler.hpp>
 #include "Utility/Collider.h"
 
-class Character
+class Character : public Collider
 {
 public:
-	Character(int aLeftKey, int aRightKey, Collider* aEnemyCollider);
+	
 	void Init();
 	void Update(float aTimeDelta, const CommonUtilities::InputHandler& aInputHandler);
 	void Render();
-	Collider myCollider;
+	
 
 private:
-	CommonUtilities::Vector2<float> myPosition;
-	CommonUtilities::Vector2<float> mySize;
 
 	int myLeftKey;
 	int myRightKey;

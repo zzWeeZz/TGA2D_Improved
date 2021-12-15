@@ -18,5 +18,4 @@ private:
 	CGameWorld myGameWorld;
 	CommonUtilities::InputHandler myInputHandler;
 	CommonUtilities::Timer myTimer;
-
 };
