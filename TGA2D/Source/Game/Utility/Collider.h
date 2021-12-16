@@ -2,22 +2,29 @@
 #include "stdafx.h"
 #include <..\CommonUtilities/LineVolume.hpp>
 #include <array>
-#include "Delegate.hpp"
 
-
+class Collider;
 
 class Collider
 {
 public:
-	Collider();
-	bool operator==(const Collider& aCollider) const;
+	Collider() = default;
+	void Init(CommonUtilities::Vector2<float>* aPosition, CommonUtilities::Vector2<float>* aSize, Collider& aCollider);
+	void IsIntersects(const Collider* aCollider);
+	bool IntersectsWith(const Collider* aCollider) const;
+	bool HasCollided() const;
+	int GetId() const;
+	void SetId(const int aID);
+	void DrawDebugLines();
+	
+private:
+	CommonUtilities::Vector2<float>* myPosition;
+	CommonUtilities::Vector2<float>* mySize;
+	Tga2D::Vector2<float> myBotRight;
+	Tga2D::Vector2<float> myBotLeft;
+	Tga2D::Vector2<float> myTopLeft;
+	Tga2D::Vector2<float> myTopRight;
 
-	bool OnEnter(const Collider& aCollider);
-	bool OnStay(const Collider& aCollider);
-	bool OnExit(const Collider& aCollider);
-protected:
-	CommonUtilities::Vector2<float> myPosition;
-	CommonUtilities::Vector2<float> mySize;
-
+	int myId;
+	bool myHasSomethingInside;
 };
-Delegate<void(const Collider&)> delegate;

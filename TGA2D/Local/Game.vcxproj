@@ -160,10 +160,8 @@
     <ClInclude Include="..\Source\Game\resource.h" />
     <ClInclude Include="..\Source\Game\stdafx.h" />
     <ClInclude Include="..\Source\Game\targetver.h" />
-    <ClInclude Include="..\Source\Game\Utility\CallableWrappers.hpp" />
     <ClInclude Include="..\Source\Game\Utility\Collider.h" />
     <ClInclude Include="..\Source\Game\Utility\ColliderManager.h" />
-    <ClInclude Include="..\Source\Game\Utility\Delegate.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Game\Character.cpp" />

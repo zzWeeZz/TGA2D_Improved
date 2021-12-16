@@ -25,12 +25,6 @@
     <ClInclude Include="..\Source\Game\Utility\ColliderManager.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Game\Utility\Delegate.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Utility\CallableWrappers.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">

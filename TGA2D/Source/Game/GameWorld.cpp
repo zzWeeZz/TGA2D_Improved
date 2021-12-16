@@ -20,7 +20,8 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myCharacter.Init();
+	myCharacter.Init(VK_LEFT, VK_RIGHT);
+	myCharacterTwo.Init(A_KEY, D_KEY);
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)
@@ -29,9 +30,13 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTotalTime;
 	aInputHandler;
 	myCharacter.Update(aTimeDelta, aInputHandler);
+	myCharacterTwo.Update(aTimeDelta, aInputHandler);
 }
 
 void CGameWorld::Render()
 {
 	myCharacter.Render();
+
+	myCharacterTwo.Render();
+	
 }

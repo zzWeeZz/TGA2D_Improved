@@ -22,4 +22,6 @@ public:
 	~CGameWorld();
 private:
 	Character myCharacter;
+	Character myCharacterTwo;
+
 };

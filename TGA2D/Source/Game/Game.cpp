@@ -4,6 +4,8 @@
 
 #include <tga2d/error/error_manager.h>
 
+#include "Utility/ColliderManager.h"
+
 
 using namespace std::placeholders;
 
@@ -95,6 +97,7 @@ void CGame::UpdateCallBack()
 	myTimer.Update();
 	myInputHandler.UpdateInput();
 	myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
+	ColliderManager::GetInstance()->UpdateCollision();
 	myGameWorld.Render();
 
 }

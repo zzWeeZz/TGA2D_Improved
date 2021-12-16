@@ -1,39 +1,71 @@
 #include "stdafx.h"
 #include "Collider.h"
 #include <algorithm>
-
+#include <tga2d/drawers/debug_drawer.h>
 #include "ColliderManager.h"
 
-Collider globalCollider;
-Collider::Collider()
+void Collider::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtilities::Vector2<float>* aSize, Collider& aCollider)
 {
-	ColliderManager::GetInstance()->AddCollider(this);
+	ColliderManager::GetInstance()->AddCollider(&aCollider);
+	myPosition = aPosition;
+	mySize = aSize;
 }
 
-#pragma warning(disable : 4100)
-bool Collider::operator==(const Collider& aCollider) const
+void Collider::IsIntersects(const Collider* aCollider)
 {
-	return false;
+	if (myPosition->x < aCollider->myPosition->x + aCollider->mySize->x &&
+		myPosition->x + mySize->x > aCollider->myPosition->x &&
+		myPosition->y < aCollider->myPosition->y + aCollider->mySize->y &&
+		myPosition->y + mySize->y > aCollider->myPosition->y)
+	{
+		myHasSomethingInside = true;
+	}
+	else
+		myHasSomethingInside = false;
+
 }
 
-std::vector<Collider> ObjectsInSideCollider;
-std::vector<Collider> ObjectsPreviousFrame;
-bool Collider::OnEnter(const Collider& aCollider)
+bool Collider::IntersectsWith(const Collider* aCollider) const
 {
-	return false;
-}
 
-bool Collider::OnStay(const Collider& aCollider)
-{
-	if (!(std::find(ObjectsInSideCollider.begin(), ObjectsInSideCollider.end(), aCollider) != ObjectsInSideCollider.end()))
+	if (myPosition->x < aCollider->myPosition->x + aCollider->mySize->x &&
+		myPosition->x + mySize->x > aCollider->myPosition->x &&
+		myPosition->y < aCollider->myPosition->y + aCollider->mySize->y &&
+		myPosition->y + mySize->y > aCollider->myPosition->y)
 	{
 		return true;
 	}
 	return false;
 }
-#pragma warning(disable : 4834)
-bool Collider::OnExit(const Collider& aCollider)
+
+bool Collider::HasCollided() const
 {
-	
-	return false;
+	return myHasSomethingInside;
+}
+
+int Collider::GetId() const
+{
+	return myId;
+}
+
+void Collider::SetId(const int aID)
+{
+	myId = aID;
+}
+
+void Collider::DrawDebugLines()
+{
+	auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
+	myBotRight = { (myPosition->x + mySize->x / 2) / resolution.myX, (myPosition->y + mySize->y / 2) / resolution.myY };
+	myBotLeft = { (myPosition->x - mySize->x / 2) / resolution.myX, (myPosition->y + mySize->y / 2) / resolution.myY };
+	myTopLeft = { (myPosition->x - mySize->x / 2) / resolution.myX, (myPosition->y - mySize->y / 2) / resolution.myY };
+	myTopRight = { (myPosition->x + mySize->x / 2) / resolution.myX, (myPosition->y - mySize->y / 2) / resolution.myY };
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(myBotRight, myBotLeft, { 1, 0, 0, 1 });
+
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(myBotLeft, myTopLeft, { 1, 0, 0, 1 });
+
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(myTopLeft, myTopRight, { 1, 0, 0, 1 });
+
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(myTopRight, myBotRight, { 1, 0, 0, 1 });
+
 }
