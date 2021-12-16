@@ -97,7 +97,7 @@ void CGame::UpdateCallBack()
 	myTimer.Update();
 	myInputHandler.UpdateInput();
 	myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
-	ColliderManager::GetInstance()->UpdateCollision();
 	myGameWorld.Render();
+	ColliderManager::GetInstance()->UpdateCollision();
 
 }

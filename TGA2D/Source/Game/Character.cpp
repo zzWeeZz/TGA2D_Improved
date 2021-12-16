@@ -7,20 +7,26 @@
 #include "tga2d/texture/texture_manager.h"
 #include <iostream>
 
-Character::Character() : myCollider(myCollider)
+Character::Character() : myCircleCollider(myCircleCollider)
 {
 }
 
-void Character::Init(int aLeftKey, int aRightKey)
+void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool aCircle)
 {
-	myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/square.dds");
-	myPosition = { 1280/2, 720/2 };
-	mySize = { 200, 200 };
-	myCollider.Init(&myPosition, &mySize, myCollider);
+	myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/circle.dds");
+	myPosition = { 1280 / 2, 720 / 2 };
+	mySize = { 100, 100 };
+	myIsCircle = aCircle;
+	if (aCircle)
+		myCircleCollider.Init(&myPosition, &mySize, myCircleCollider);
+	else
+		myBoxCollider.Init(&myPosition, &mySize, myBoxCollider);
 	myLeftKey = aLeftKey;
 	myRightKey = aRightKey;
+	myUpKey = aUpKey;
+	myDownKey = aDownKey;
 	myColor = { 1, 1, 1, 1 };
-	
+
 }
 void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aInputHandler)
 {
@@ -32,13 +38,35 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	{
 		myPosition.x += 100 * aTimeDelta;
 	}
-	if (myCollider.HasCollided())
+	if (aInputHandler.KeyIsPressed(myUpKey))
 	{
-		myColor = { 0, 1, 0, 1 };
+		myPosition.y -= 100 * aTimeDelta;
+	}
+	if (aInputHandler.KeyIsPressed(myDownKey))
+	{
+		myPosition.y += 100 * aTimeDelta;
+	}
+	if (myIsCircle)
+	{
+		if (myCircleCollider.hasCollided())
+		{
+			myColor = { 0, 1, 1, 1 };
+		}
+		else
+		{
+			myColor = { 1, 1, 1, 1 };
+		}
 	}
 	else
 	{
-		myColor = { 1, 1, 1, 1 };
+		if(myBoxCollider.HasCollided())
+		{
+			myColor = { 0, 1, 1, 1 };
+		}
+		else
+		{
+			myColor = { 1, 1, 1, 1 };
+		}
 	}
 
 }

@@ -20,8 +20,8 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myCharacter.Init(VK_LEFT, VK_RIGHT);
-	myCharacterTwo.Init(A_KEY, D_KEY);
+	myCharacter.Init(VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, true);
+	myCharacterTwo.Init(A_KEY, D_KEY, W_KEY, S_KEY, false);
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ColliderManager.h"
 #include <cassert>
+#include <iostream>
 #include <tga2d/drawers/debug_drawer.h>
 
 
@@ -31,7 +32,7 @@ void ColliderManager::UpdateCollision() const
 			{
 				if (myColliders[i] != collider)
 				{
-					myColliders[i]->IsIntersects(collider);
+					myColliders[i]->IsIntersected(collider);
 					continue;
 				}
 			}
@@ -40,7 +41,6 @@ void ColliderManager::UpdateCollision() const
 		myColliders[i]->DrawDebugLines();
 #endif
 	}
-
 }
 
 void ColliderManager::EnableDebug()
