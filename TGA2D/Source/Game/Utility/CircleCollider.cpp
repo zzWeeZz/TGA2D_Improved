@@ -21,7 +21,7 @@ void CircleCollider::IsIntersected(const Collider* aCollider)
 		const float deltaY = (myPosition->y + *myRadius) - (aCollider->myPosition->y + *aCollider->myRadius);
 		const auto distance = sqrt(deltaX * deltaX + deltaY * deltaY);
 
-		if(distance < *myRadius + *aCollider->myRadius)
+		if (distance < *myRadius + *aCollider->myRadius)
 		{
 			myHasSomethingInside = true;
 		}
@@ -32,31 +32,37 @@ void CircleCollider::IsIntersected(const Collider* aCollider)
 	}
 	else
 	{
-		const CommonUtilities::Vector2 distance = { CommonUtilities::Abs(myPosition->x - myPosition->x),CommonUtilities::Abs(myPosition->y - myPosition->y) };
+		const CommonUtilities::Vector2 distance = { CommonUtilities::Abs(myPosition->x - aCollider->myPosition->x),CommonUtilities::Abs(myPosition->y - aCollider->myPosition->y) };
 		if (distance.x > (aCollider->mySize->x / 2 + *myRadius))
 		{
 			myHasSomethingInside = false;
+			return;
 		}
 		if (distance.y > (aCollider->mySize->y / 2 + *myRadius))
 		{
 			myHasSomethingInside = false;
+			return;
 		}
 		if (distance.x <= (aCollider->mySize->x / 2))
 		{
 			myHasSomethingInside = true;
+			return;
 		}
 		if (distance.y <= (aCollider->mySize->y / 2))
 		{
 			myHasSomethingInside = true;
+			return;
 		}
 		const float cDistSqrt = (distance.x - aCollider->mySize->x / 2) * (distance.x - aCollider->mySize->x / 2) + (distance.y - aCollider->mySize->y / 2) * (distance.y - aCollider->mySize->y / 2);
 
 		if (cDistSqrt <= (*myRadius * *myRadius))
 		{
 			myHasSomethingInside = true;
+			return;
 		}
 	}
 }
+
 
 bool CircleCollider::IntersectsWith(const Collider* aCollider) const
 {
@@ -122,5 +128,5 @@ void CircleCollider::SetId(const int aID)
 void CircleCollider::DrawDebugLines()
 {
 	auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
-	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawCircle({ myPosition->x/resolution.myX, myPosition->y /resolution.myY}, *myRadius/resolution.myX, { 1, 0, 0, 1 });
+	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawCircle({ myPosition->x / resolution.myX, myPosition->y / resolution.myY }, *myRadius / resolution.myX, { 1, 0, 0, 1 });
 }
