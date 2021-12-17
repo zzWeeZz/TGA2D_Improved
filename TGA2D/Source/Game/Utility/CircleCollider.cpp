@@ -13,7 +13,7 @@ void CircleCollider::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtil
 	ColliderManager::GetInstance()->AddCollider(&aCollider);
 }
 
-void CircleCollider::IsIntersected(const Collider* aCollider)
+void CircleCollider::IsIntersected(Collider* aCollider)
 {
 	if (aCollider->myRadius)
 	{
@@ -24,10 +24,12 @@ void CircleCollider::IsIntersected(const Collider* aCollider)
 		if (distance < *myRadius + *aCollider->myRadius)
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 		}
 		else
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 		}
 	}
 	else
@@ -36,21 +38,25 @@ void CircleCollider::IsIntersected(const Collider* aCollider)
 		if (distance.x > (aCollider->mySize->x / 2 + *myRadius))
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 			return;
 		}
 		if (distance.y > (aCollider->mySize->y / 2 + *myRadius))
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 			return;
 		}
 		if (distance.x <= (aCollider->mySize->x / 2))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 		if (distance.y <= (aCollider->mySize->y / 2))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 		const float cDistSqrt = (distance.x - aCollider->mySize->x / 2) * (distance.x - aCollider->mySize->x / 2) + (distance.y - aCollider->mySize->y / 2) * (distance.y - aCollider->mySize->y / 2);
@@ -58,6 +64,7 @@ void CircleCollider::IsIntersected(const Collider* aCollider)
 		if (cDistSqrt <= (*myRadius * *myRadius))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 	}
@@ -110,23 +117,29 @@ bool CircleCollider::IntersectsWith(const Collider* aCollider) const
 	return false;
 }
 
-bool CircleCollider::hasCollided() const
+bool CircleCollider::HasCollided(const Collider* aOutCollider) const
+{
+	aOutCollider = myEnteredCollider;
+	return myHasSomethingInside;
+}
+
+bool CircleCollider::HasCollided() const
 {
 	return myHasSomethingInside;
 }
 
-int CircleCollider::GetId() const
+ColliderId CircleCollider::GetId() const
 {
 	return myId;
 }
 
-void CircleCollider::SetId(const int aID)
+void CircleCollider::SetId(const ColliderId aID)
 {
 	myId = aID;
 }
 
 void CircleCollider::DrawDebugLines()
 {
-	auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
+	const auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
 	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawCircle({ myPosition->x / resolution.myX, myPosition->y / resolution.myY }, *myRadius / resolution.myX, { 1, 0, 0, 1 });
 }

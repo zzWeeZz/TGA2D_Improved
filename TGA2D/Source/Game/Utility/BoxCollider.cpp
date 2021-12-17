@@ -12,7 +12,7 @@ void BoxCollider::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtiliti
 	mySize = aSize;
 }
 
-void BoxCollider::IsIntersected(const Collider* aCollider)
+void BoxCollider::IsIntersected(Collider* aCollider)
 {
 	if (!aCollider->myRadius)
 	{
@@ -23,10 +23,12 @@ void BoxCollider::IsIntersected(const Collider* aCollider)
 			myPosition->y + mySize->y > aCollider->myPosition->y)
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 		}
 		else
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 		}
 	}
 	else
@@ -35,21 +37,25 @@ void BoxCollider::IsIntersected(const Collider* aCollider)
 		if(distance.x > (mySize->x/2 + *aCollider->myRadius))
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 			return;
 		}
 		if(distance.y > (mySize->y / 2 + *aCollider->myRadius))
 		{
 			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
 			return;
 		}
 		if(distance.x <= (mySize->x/2))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 		if(distance.y <= (mySize->y/2))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 		const float cDistSqrt = (distance.x - mySize->x / 2) * (distance.x - mySize->x / 2) + (distance.y - mySize->y / 2) * (distance.y - mySize->y / 2);
@@ -57,6 +63,7 @@ void BoxCollider::IsIntersected(const Collider* aCollider)
 		if(cDistSqrt <= (*aCollider->myRadius * *aCollider->myRadius))
 		{
 			myHasSomethingInside = true;
+			myEnteredCollider = aCollider;
 			return;
 		}
 	}
@@ -101,24 +108,30 @@ bool BoxCollider::IntersectsWith(const Collider* aCollider) const
 	return false;
 }
 
+bool BoxCollider::HasCollided(const Collider* aOutCollider) 
+{
+	 aOutCollider = myEnteredCollider ;
+	return myHasSomethingInside;
+}
+
 bool BoxCollider::HasCollided() const
 {
 	return myHasSomethingInside;
 }
 
-int BoxCollider::GetId() const
+ColliderId BoxCollider::GetId() const
 {
 	return myId;
 }
 
-void BoxCollider::SetId(const int aID)
+void BoxCollider::SetId(const ColliderId aID)
 {
 	myId = aID;
 }
 
 void BoxCollider::DrawDebugLines()
 {
-	auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
+	const auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
 	myBotRight = { (myPosition->x + mySize->x / 2) / resolution.myX, (myPosition->y + mySize->y / 2) / resolution.myY };
 	myBotLeft = { (myPosition->x - mySize->x / 2) / resolution.myX, (myPosition->y + mySize->y / 2) / resolution.myY };
 	myTopLeft = { (myPosition->x - mySize->x / 2) / resolution.myX, (myPosition->y - mySize->y / 2) / resolution.myY };
@@ -131,4 +144,8 @@ void BoxCollider::DrawDebugLines()
 
 	Tga2D::CEngine::GetInstance()->GetDebugDrawer().DrawLine(myTopRight, myBotRight, { 1, 0, 0, 1 });
 
+}
+
+BoxCollider::~BoxCollider()
+{
 }

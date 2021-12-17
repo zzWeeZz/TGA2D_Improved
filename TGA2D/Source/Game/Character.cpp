@@ -48,7 +48,7 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	}
 	if (myIsCircle)
 	{
-		if (myCircleCollider.hasCollided())
+		if (myCircleCollider.HasCollided())
 		{
 			myColor = { 0, 1, 1, 1 };
 		}
