@@ -4,6 +4,7 @@
 #include "Utility/Collider.h"
 #include "Utility/CircleCollider.h"
 #include "Utility/BoxCollider.h"
+#include "Utility/Sprite/Sprite.h"
 
 class Character
 {
@@ -20,11 +21,12 @@ private:
 	int myRightKey;
 	int myUpKey;
 	int myDownKey;
-	Tga2D::CTexture* myTexture;
+	Sprite mySprite;
 	CircleCollider myCircleCollider;
 	BoxCollider myBoxCollider;
 	CommonUtilities::Vector2<float> myPosition;
 	CommonUtilities::Vector2<float> mySize;
 	Tga2D::CColor myColor;
+	float myRotation;
 	bool myIsCircle;
 };

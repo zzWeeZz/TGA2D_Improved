@@ -13,9 +13,9 @@ Character::Character() : myCircleCollider(myCircleCollider)
 
 void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool aCircle)
 {
-	myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/circle.dds");
-	myPosition = { 1280 / 2, 720 / 2 };
-	mySize = { 100, 100 };
+	mySprite.Init(&myPosition, &mySize, &myRotation, &myColor);
+	mySprite.GiveSpritePath("Sprites/circle.dds");
+	
 	myIsCircle = aCircle;
 	if (aCircle)
 		myCircleCollider.Init(&myPosition, &mySize, myCircleCollider);
@@ -61,7 +61,7 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	{
 		if(myBoxCollider.HasCollided())
 		{
-			myColor = { 0, 1, 1, 1 };
+			myColor = { 0.5, 1, 0.5, 1 };
 		}
 		else
 		{
@@ -73,19 +73,7 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 
 void Character::Render()
 {
-	const auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
-	Tga2D::CSpriteDrawer& spriteDrawer(Tga2D::CEngine::GetInstance()->GetDirect3D().GetSpriteDrawer());
-	Tga2D::SSpriteSharedData sharedData = {};
-	sharedData.myTexture = myTexture;
-
-	Tga2D::SSpriteInstanceData spriteInstance = {};
-	spriteInstance.myPivot = { 0.5f, 0.5f };
-	spriteInstance.myPosition = { myPosition.x / resolution.myX, myPosition.y / resolution.myY };
-	spriteInstance.mySize = { mySize.x / resolution.myY, mySize.y / resolution.myY };
-	spriteInstance.myRotation = 0;
-	spriteInstance.myColor = myColor;
-
-	spriteDrawer.Draw(sharedData, spriteInstance);
+	mySprite.Render();
 }
 
 void Character::DelegateCall()
