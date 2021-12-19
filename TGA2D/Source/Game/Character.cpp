@@ -7,26 +7,25 @@
 #include "tga2d/texture/texture_manager.h"
 #include <iostream>
 
-Character::Character() : myCircleCollider(myCircleCollider)
-{
-}
 
 void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool aCircle)
 {
-	mySprite.Init(&myPosition, &mySize, &myRotation, &myColor);
-	mySprite.GiveSpritePath("Sprites/circle.dds");
-	
+
 	myIsCircle = aCircle;
 	if (aCircle)
+	{
+		mySprite.GiveSpritePath("Sprites/circle.dds");
 		myCircleCollider.Init(&myPosition, &mySize, myCircleCollider);
+	}
 	else
+	{
+		mySprite.GiveSpritePath("Sprites/square.dds");
 		myBoxCollider.Init(&myPosition, &mySize, myBoxCollider);
+	}
 	myLeftKey = aLeftKey;
 	myRightKey = aRightKey;
 	myUpKey = aUpKey;
 	myDownKey = aDownKey;
-	myColor = { 1, 1, 1, 1 };
-
 }
 void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aInputHandler)
 {
@@ -59,9 +58,9 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	}
 	else
 	{
-		if(myBoxCollider.HasCollided())
+		if (myBoxCollider.HasCollided())
 		{
-			myColor = { 0.5, 1, 0.5, 1 };
+			myColor = { 0.5, 0, 0.5, 1 };
 		}
 		else
 		{

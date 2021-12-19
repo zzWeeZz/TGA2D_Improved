@@ -5,11 +5,11 @@
 #include "Utility/CircleCollider.h"
 #include "Utility/BoxCollider.h"
 #include "Utility/Sprite/Sprite.h"
+#include "Utility/GameObject/GameObject.h"
 
-class Character
+class Character : public GameObject
 {
 public:
-	Character();
 	void Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool aCircle);
 	void Update(float aTimeDelta, const CommonUtilities::InputHandler& aInputHandler);
 	void Render();
@@ -21,12 +21,7 @@ private:
 	int myRightKey;
 	int myUpKey;
 	int myDownKey;
-	Sprite mySprite;
 	CircleCollider myCircleCollider;
 	BoxCollider myBoxCollider;
-	CommonUtilities::Vector2<float> myPosition;
-	CommonUtilities::Vector2<float> mySize;
-	Tga2D::CColor myColor;
-	float myRotation;
 	bool myIsCircle;
 };

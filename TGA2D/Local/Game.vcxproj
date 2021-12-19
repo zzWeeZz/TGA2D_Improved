@@ -164,6 +164,7 @@
     <ClInclude Include="..\Source\Game\Utility\CircleCollider.h" />
     <ClInclude Include="..\Source\Game\Utility\Collider.h" />
     <ClInclude Include="..\Source\Game\Utility\ColliderManager.h" />
+    <ClInclude Include="..\Source\Game\Utility\GameObject\GameObject.h" />
     <ClInclude Include="..\Source\Game\Utility\Sprite\Sprite.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClCompile Include="..\Source\Game\Utility\CircleCollider.cpp" />
     <ClCompile Include="..\Source\Game\Utility\Collider.cpp" />
     <ClCompile Include="..\Source\Game\Utility\ColliderManager.cpp" />
+    <ClCompile Include="..\Source\Game\Utility\GameObject\GameObject.cpp" />
     <ClCompile Include="..\Source\Game\Utility\Sprite\Sprite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

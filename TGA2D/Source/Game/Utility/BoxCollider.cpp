@@ -8,6 +8,7 @@
 void BoxCollider::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtilities::Vector2<float>* aSize, BoxCollider& aCollider)
 {
 	ColliderManager::GetInstance()->AddCollider(&aCollider);
+	myId = ColliderId::Box;
 	myPosition = aPosition;
 	mySize = aSize;
 }
@@ -46,19 +47,26 @@ void BoxCollider::IsIntersected(Collider* aCollider)
 			myEnteredCollider = nullptr;
 			return;
 		}
-		if(distance.x <= (mySize->x/2))
+		if (distance.x <= (mySize->x / 2))
 		{
 			myHasSomethingInside = true;
 			myEnteredCollider = aCollider;
 			return;
 		}
-		if(distance.y <= (mySize->y/2))
+		if (distance.y <= (mySize->y / 2))
 		{
 			myHasSomethingInside = true;
 			myEnteredCollider = aCollider;
 			return;
 		}
+		
 		const float cDistSqrt = (distance.x - mySize->x / 2) * (distance.x - mySize->x / 2) + (distance.y - mySize->y / 2) * (distance.y - mySize->y / 2);
+		if (cDistSqrt > (*aCollider->myRadius * *aCollider->myRadius))
+		{
+			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
+			return;
+		}
 
 		if(cDistSqrt <= (*aCollider->myRadius * *aCollider->myRadius))
 		{
@@ -66,6 +74,7 @@ void BoxCollider::IsIntersected(Collider* aCollider)
 			myEnteredCollider = aCollider;
 			return;
 		}
+		
 	}
 }
 
@@ -99,7 +108,10 @@ bool BoxCollider::IntersectsWith(const Collider* aCollider) const
 			return true;
 		}
 		const float cDistSqrt = (distance.x - mySize->x / 2) * (distance.x - mySize->x / 2) + (distance.y - mySize->y / 2) * (distance.y - mySize->y / 2);
-
+		if (cDistSqrt > (*aCollider->myRadius * *aCollider->myRadius))
+		{
+			return false;
+		}
 		if (cDistSqrt <= (*aCollider->myRadius * *aCollider->myRadius))
 		{
 			return true;
@@ -110,7 +122,7 @@ bool BoxCollider::IntersectsWith(const Collider* aCollider) const
 
 bool BoxCollider::HasCollided(const Collider* aOutCollider) 
 {
-	 aOutCollider = myEnteredCollider ;
+	 aOutCollider = myEnteredCollider;
 	return myHasSomethingInside;
 }
 

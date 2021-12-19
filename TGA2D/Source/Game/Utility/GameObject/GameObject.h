@@ -7,7 +7,7 @@ public:
 	GameObject();
 protected:
 	Sprite mySprite;
-	CommonUtilities::Vector2<float> myPositon;
+	CommonUtilities::Vector2<float> myPosition;
 	CommonUtilities::Vector2<float> mySize;
 	float myRotation;
 	Tga2D::CColor myColor;

@@ -20,6 +20,9 @@
     <ClCompile Include="..\Source\Game\Utility\Sprite\Sprite.cpp">
       <Filter>Utility\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\GameObject\GameObject.cpp">
+      <Filter>Utility\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Game\Game.h" />
@@ -43,6 +46,9 @@
     <ClInclude Include="..\Source\Game\Utility\Sprite\Sprite.h">
       <Filter>Utility\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\GameObject\GameObject.h">
+      <Filter>Utility\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">
@@ -50,6 +56,9 @@
     </Filter>
     <Filter Include="Utility\Sprite">
       <UniqueIdentifier>{bd9315a2-0113-426d-b1fe-d9a5b100db40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\GameObject">
+      <UniqueIdentifier>{7c30cbb4-600c-4296-9228-792528d80d99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ void CircleCollider::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtil
 {
 	myPosition = aPosition;
 	mySize = aSize;
+	myId = ColliderId::Circle;
 	myRadiusValue = mySize->x / 2.0f;
 	myRadius = &myRadiusValue;
 	ColliderManager::GetInstance()->AddCollider(&aCollider);
@@ -40,12 +41,14 @@ void CircleCollider::IsIntersected(Collider* aCollider)
 			myHasSomethingInside = false;
 			myEnteredCollider = nullptr;
 			return;
+			
 		}
 		if (distance.y > (aCollider->mySize->y / 2 + *myRadius))
 		{
 			myHasSomethingInside = false;
 			myEnteredCollider = nullptr;
 			return;
+			
 		}
 		if (distance.x <= (aCollider->mySize->x / 2))
 		{
@@ -61,12 +64,20 @@ void CircleCollider::IsIntersected(Collider* aCollider)
 		}
 		const float cDistSqrt = (distance.x - aCollider->mySize->x / 2) * (distance.x - aCollider->mySize->x / 2) + (distance.y - aCollider->mySize->y / 2) * (distance.y - aCollider->mySize->y / 2);
 
+
+		if (cDistSqrt > (*myRadius * *myRadius))
+		{
+			myHasSomethingInside = false;
+			myEnteredCollider = nullptr;
+			return;
+		}
 		if (cDistSqrt <= (*myRadius * *myRadius))
 		{
 			myHasSomethingInside = true;
 			myEnteredCollider = aCollider;
-			return;
+			
 		}
+		
 	}
 }
 
@@ -99,6 +110,7 @@ bool CircleCollider::IntersectsWith(const Collider* aCollider) const
 		{
 			return  false;
 		}
+		
 		if (distance.x <= (aCollider->mySize->x / 2))
 		{
 			return  true;
@@ -107,12 +119,20 @@ bool CircleCollider::IntersectsWith(const Collider* aCollider) const
 		{
 			return  true;
 		}
+
 		const float cDistSqrt = (distance.x - aCollider->mySize->x / 2) * (distance.x - aCollider->mySize->x / 2) + (distance.y - aCollider->mySize->y / 2) * (distance.y - aCollider->mySize->y / 2);
 
-		if (cDistSqrt <= (*myRadius * *myRadius))
+		std::cout << cDistSqrt << " " << (*myRadius * *myRadius) << std::endl;
+
+		if (cDistSqrt > (*myRadius * *myRadius))
+		{
+			return false;
+		}
+		if (cDistSqrt < (*myRadius * *myRadius))
 		{
 			return true;
 		}
+	
 	}
 	return false;
 }
