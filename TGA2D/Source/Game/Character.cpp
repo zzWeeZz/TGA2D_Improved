@@ -10,7 +10,7 @@
 
 void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool aCircle)
 {
-
+	myText = new Tga2D::CText;
 	myIsCircle = aCircle;
 	if (aCircle)
 	{
@@ -26,6 +26,11 @@ void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool
 	myRightKey = aRightKey;
 	myUpKey = aUpKey;
 	myDownKey = aDownKey;
+	myButton.CreateButton("Does it Work", myText, mySprite, { 100, 100 }, { 100, 50 });
+}
+void DelegateCall()
+{
+	std::cout << "holy shit it worked\n";
 }
 void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aInputHandler)
 {
@@ -45,6 +50,7 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 	{
 		myPosition.y += 100 * aTimeDelta;
 	}
+	myButton.OnClick(DelegateCall, aInputHandler);
 	if (myIsCircle)
 	{
 		if (myCircleCollider.HasCollided())
@@ -73,9 +79,6 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 void Character::Render()
 {
 	mySprite.Render();
+	myButton.Render();
 }
 
-void Character::DelegateCall()
-{
-	std::cout << "holy shit it worked\n";
-}

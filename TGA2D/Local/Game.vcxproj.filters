@@ -4,24 +4,27 @@
     <ClCompile Include="..\Source\Game\Game.cpp" />
     <ClCompile Include="..\Source\Game\GameWorld.cpp" />
     <ClCompile Include="..\Source\Game\stdafx.cpp" />
-    <ClCompile Include="..\Source\Game\Utility\BoxCollider.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Character.cpp" />
-    <ClCompile Include="..\Source\Game\Utility\ColliderManager.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Utility\Collider.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Game\Utility\CircleCollider.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Game\Utility\Sprite\Sprite.cpp">
       <Filter>Utility\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Game\Utility\GameObject\GameObject.cpp">
       <Filter>Utility\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\UIElement\Button.cpp">
+      <Filter>Utility\UIElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\BoxCollider.cpp">
+      <Filter>Utility\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\CircleCollider.cpp">
+      <Filter>Utility\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\Collider.cpp">
+      <Filter>Utility\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Game\Utility\ColliderManager.cpp">
+      <Filter>Utility\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,24 +33,27 @@
     <ClInclude Include="..\Source\Game\resource.h" />
     <ClInclude Include="..\Source\Game\stdafx.h" />
     <ClInclude Include="..\Source\Game\targetver.h" />
-    <ClInclude Include="..\Source\Game\Utility\BoxCollider.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Game\Character.h" />
-    <ClInclude Include="..\Source\Game\Utility\ColliderManager.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Utility\Collider.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Game\Utility\CircleCollider.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Game\Utility\Sprite\Sprite.h">
       <Filter>Utility\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Game\Utility\GameObject\GameObject.h">
       <Filter>Utility\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\UIElement\Button.h">
+      <Filter>Utility\UIElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\BoxCollider.h">
+      <Filter>Utility\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\CircleCollider.h">
+      <Filter>Utility\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\Collider.h">
+      <Filter>Utility\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Utility\ColliderManager.h">
+      <Filter>Utility\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +65,15 @@
     </Filter>
     <Filter Include="Utility\GameObject">
       <UniqueIdentifier>{7c30cbb4-600c-4296-9228-792528d80d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\UIElement">
+      <UniqueIdentifier>{a2efb57a-207d-4a06-977b-513f793bb84b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Colision">
+      <UniqueIdentifier>{49cd3645-35ee-43cb-badf-bfc72fc05eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Managers">
+      <UniqueIdentifier>{b43f8488-8658-4588-8d8f-69067978f9e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -29,6 +29,7 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTimeDelta;
 	aTotalTime;
 	aInputHandler;
+	
 	myCharacter.Update(aTimeDelta, aInputHandler);
 	myCharacterTwo.Update(aTimeDelta, aInputHandler);
 }
