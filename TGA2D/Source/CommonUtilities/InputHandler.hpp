@@ -80,8 +80,9 @@ namespace CommonUtilities
 		std::bitset<256> myPreviousKeyStroke;
 		std::bitset<256> myInputState;
 
-		std::bitset<6> myCurrentMouseInputs;
+		std::bitset<3> myCurrentMouseInputs;
 		std::bitset<3> myMouseInputs;
+		std::bitset<3> myPreviousMouseInputs;
 		Point myMousePos;
 	};
 }

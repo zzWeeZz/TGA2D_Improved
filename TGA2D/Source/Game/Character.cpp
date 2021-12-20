@@ -26,7 +26,7 @@ void Character::Init(int aLeftKey, int aRightKey, int aUpKey, int aDownKey, bool
 	myRightKey = aRightKey;
 	myUpKey = aUpKey;
 	myDownKey = aDownKey;
-	myButton.CreateButton("Does it Work", myText, mySprite, { 100, 100 }, { 100, 50 });
+	myButton.CreateButton("Does it Work", myText, { 100, 100 }, { 150, 50 });
 }
 void DelegateCall()
 {

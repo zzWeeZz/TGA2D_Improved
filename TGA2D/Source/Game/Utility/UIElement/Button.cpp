@@ -4,16 +4,20 @@
 #include "tga2d/texture/texture.h"
 
 
-void Button::CreateButton(const char* aLabel, Tga2D::CText* aText, Sprite aSprite, const CommonUtilities::Vector2<float> aPosition, const CommonUtilities::Vector2<float> aSize)
+void Button::CreateButton(std::string aLabel, Tga2D::CText* aText, const CommonUtilities::Vector2<float> aPosition, const CommonUtilities::Vector2<float> aSize, const char* aTexturePath)
 {
 	myLabel = aLabel;
 	myText = aText;
-	mySprite = aSprite;
 	myPosition = aPosition;
-	myPoint[0] = { aPosition.x + aSize.x, aPosition.y + aSize.y };
-	myPoint[1] = { aPosition.x + aSize.x, aPosition.y - aSize.y };
-	myPoint[2] = { aPosition.x - aSize.x, aPosition.y - aSize.y };
-	myPoint[3] = { aPosition.x - aSize.x, aPosition.y + aSize.y };
+	mySize = aSize;
+	myRotation = 0;
+	myColor = { 1, 1, 1, 1 };
+	mySprite.Init(&myPosition, &mySize, &myRotation, &myColor);
+	myPoint[0] = { aPosition.x + aSize.x * 0.5f, aPosition.y + aSize.y * 0.5f };
+	myPoint[1] = { aPosition.x + aSize.x * 0.5f, aPosition.y - aSize.y * 0.5f };
+	myPoint[2] = { aPosition.x - aSize.x * 0.5f, aPosition.y - aSize.y * 0.5f };
+	myPoint[3] = { aPosition.x - aSize.x * 0.5f, aPosition.y + aSize.y * 0.5f };
+	mySprite.GiveSpritePath(aTexturePath);
 	for (int i = 0; i < myPoint.size(); ++i)
 	{
 		if (i < 3)
@@ -29,7 +33,9 @@ void Button::CreateButton(const char* aLabel, Tga2D::CText* aText, Sprite aSprit
 	}
 	const auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
 	myText->SetText(myLabel);
-	myText->SetPosition({ myPosition.x/resolution.myX, myPosition.y/resolution.myY});
+	myText->SetColor({ 0, 0, 0, 1 });
+	float newPos = (myPosition.x - (myLabel.size() * 0.5f) * 9.5f);
+	myText->SetPosition({ newPos/resolution.myX, myPosition.y/resolution.myY});
 	
 }
 
@@ -49,8 +55,6 @@ void Button::Render()
 
 Button::~Button()
 {
-	myLabel = nullptr;
 	myText = nullptr;
-	delete myLabel;
 	delete myText;
 }

@@ -34,7 +34,7 @@ namespace CommonUtilities
 
 	bool InputHandler::GetMouseButtonDown(int aKeyIndex) const
 	{
-		if (myCurrentMouseInputs.test(aKeyIndex) != false && myCurrentMouseInputs.test(aKeyIndex) != myCurrentMouseInputs.test(aKeyIndex+3))
+		if (myCurrentMouseInputs.test(aKeyIndex) != false && myCurrentMouseInputs.test(aKeyIndex) != myPreviousMouseInputs.test(aKeyIndex))
 		{
 			return true;
 		}
@@ -43,7 +43,7 @@ namespace CommonUtilities
 
 	bool InputHandler::GetMouseButtonUp(int aKeyIndex) const
 	{
-		if (myCurrentMouseInputs.test(aKeyIndex + 3) != false && myCurrentMouseInputs.test(aKeyIndex + 3) != myMouseInputs.test(aKeyIndex))
+		if (myPreviousMouseInputs.test(aKeyIndex) != false && myPreviousMouseInputs.test(aKeyIndex) != myMouseInputs.test(aKeyIndex))
 		{
 			return true;
 		}
@@ -65,7 +65,7 @@ namespace CommonUtilities
 
 		for (UINT keyIndex = 0; keyIndex < myMouseInputs.size(); keyIndex++)
 		{
-			myCurrentMouseInputs.set(keyIndex+ 3, myCurrentMouseInputs.test(keyIndex));
+			myPreviousMouseInputs.set(keyIndex, myCurrentMouseInputs.test(keyIndex));
 			myCurrentMouseInputs.set(keyIndex, myMouseInputs.test(keyIndex));
 		}
 	}
