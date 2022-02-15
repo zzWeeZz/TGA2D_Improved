@@ -36,19 +36,19 @@ void Character::Update(float aTimeDelta, const CommonUtilities::InputHandler& aI
 {
 	if (aInputHandler.KeyIsPressed(myLeftKey))
 	{
-		myPosition.x -= 100 * aTimeDelta;
+		myPosition.x -= 400 * aTimeDelta;
 	}
 	if (aInputHandler.KeyIsPressed(myRightKey))
 	{
-		myPosition.x += 100 * aTimeDelta;
+		myPosition.x += 400 * aTimeDelta;
 	}
 	if (aInputHandler.KeyIsPressed(myUpKey))
 	{
-		myPosition.y -= 100 * aTimeDelta;
+		myPosition.y -= 400 * aTimeDelta;
 	}
 	if (aInputHandler.KeyIsPressed(myDownKey))
 	{
-		myPosition.y += 100 * aTimeDelta;
+		myPosition.y += 400 * aTimeDelta;
 	}
 	myButton.OnClick(DelegateCall, aInputHandler);
 	if (myIsCircle)
