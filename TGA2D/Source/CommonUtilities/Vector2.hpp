@@ -5,6 +5,8 @@
 
 namespace CommonUtilities
 {
+	template<class T>
+	class Vector3;
 	template <class T>
 	class Vector2
 	{
@@ -20,6 +22,8 @@ namespace CommonUtilities
 		//Assignment operator (compiler generated)
 		bool operator==(const Vector2& anVector2) const;
 		Vector2<T>& operator=(const Vector2<T>& aVector2) = default;
+
+		Vector3<T>& ConvertToVec3();
 		//Returns the squared length of the vector
 		T LengthSqr() const;
 		//Returns the length of the vector
@@ -61,6 +65,13 @@ namespace CommonUtilities
 			return true;
 		}
 		return false;
+	}
+
+	template <class T>
+	Vector3<T>& Vector2<T>::ConvertToVec3()
+	{
+		Vector3<T> temp = { x, y, 0 };
+		return temp;
 	}
 
 	template<class T>

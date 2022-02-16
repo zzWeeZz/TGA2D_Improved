@@ -160,6 +160,8 @@
     <ClInclude Include="..\Source\Game\resource.h" />
     <ClInclude Include="..\Source\Game\stdafx.h" />
     <ClInclude Include="..\Source\Game\targetver.h" />
+    <ClInclude Include="..\Source\Game\Threading\RenderCommander.h" />
+    <ClInclude Include="..\Source\Game\Threading\RenderData.hpp" />
     <ClInclude Include="..\Source\Game\Utility\BoxCollider.h" />
     <ClInclude Include="..\Source\Game\Utility\CircleCollider.h" />
     <ClInclude Include="..\Source\Game\Utility\Collider.h" />
@@ -175,6 +177,7 @@
     <ClCompile Include="..\Source\Game\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Threading\RenderCommander.cpp" />
     <ClCompile Include="..\Source\Game\Utility\BoxCollider.cpp" />
     <ClCompile Include="..\Source\Game\Utility\CircleCollider.cpp" />
     <ClCompile Include="..\Source\Game\Utility\Collider.cpp" />

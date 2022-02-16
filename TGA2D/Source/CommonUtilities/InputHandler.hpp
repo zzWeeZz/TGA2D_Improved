@@ -66,6 +66,7 @@ namespace CommonUtilities
 		bool GetKeyDown(const int aKeyCode) const;
 		bool GetKeyUp(const int aKeyCode) const;
 		bool KeyIsPressed(const int aKeyCode) const;
+		bool AnyKeyPressed() const;
 		bool MouseButtonPressed(int aKeyIndex) const;
 		bool GetMouseButtonDown(int aKeyIndex) const;
 		bool GetMouseButtonUp(int aKeyIndex) const;
@@ -79,7 +80,6 @@ namespace CommonUtilities
 		std::bitset<256> myKeyStrokes;
 		std::bitset<256> myPreviousKeyStroke;
 		std::bitset<256> myInputState;
-
 		std::bitset<3> myCurrentMouseInputs;
 		std::bitset<3> myMouseInputs;
 		std::bitset<3> myPreviousMouseInputs;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
 #include "Sprite.h"
+
+#include "tga2d/d3d/direct_3d.h"
 #include "tga2d/drawers/sprite_drawer.h"
 #include "tga2d/sprite/sprite.h"
 #include "tga2d/texture/texture_manager.h"

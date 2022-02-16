@@ -9,6 +9,8 @@
 #include <tga2d/texture/texture_manager.h>
 
 #include "tga2d/text/text.h"
+#include "Threading/RenderCommander.h"
+#include "Threading/RenderData.hpp"
 
 
 CGameWorld::CGameWorld()
@@ -20,8 +22,7 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myCharacter.Init(VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, true);
-	myCharacterTwo.Init(A_KEY, D_KEY, W_KEY, S_KEY, false);
+	myLogicData.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("square.dds");
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)
@@ -29,15 +30,10 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTimeDelta;
 	aTotalTime;
 	aInputHandler;
-	
-	myCharacter.Update(aTimeDelta, aInputHandler);
-	myCharacterTwo.Update(aTimeDelta, aInputHandler);
+	myLogicData.myPosition.x += aTimeDelta;
 }
 
-void CGameWorld::Render()
+void CGameWorld::Render(RenderCommander* aRenderCommander)
 {
-	myCharacter.Render();
-
-	myCharacterTwo.Render();
-	
+	aRenderCommander->AddRenderCommand(std::make_shared <LogicData>(myLogicData));
 }

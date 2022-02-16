@@ -81,4 +81,3 @@ void Character::Render()
 	mySprite.Render();
 	myButton.Render();
 }
-

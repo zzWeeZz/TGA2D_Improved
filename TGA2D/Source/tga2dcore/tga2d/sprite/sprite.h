@@ -26,7 +26,7 @@ namespace Tga2D
 		VECTOR2F myUV = { 0.0f, 0.0f };
 		VECTOR2F myUVScale = { 1.0f, 1.0f };
 		CColor myColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-		STextureRext myTextureRect = { 0.0f, 0.0f, 1.0f, 1.0f };;
+		STextureRext myTextureRect;
 		float myRotation = 0.f;
 		bool myIsHidden = false;
 	};

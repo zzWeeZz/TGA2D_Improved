@@ -26,6 +26,9 @@
     <ClCompile Include="..\Source\Game\Utility\ColliderManager.cpp">
       <Filter>Utility\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Game\Threading\RenderCommander.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Game\Game.h" />
@@ -55,6 +58,12 @@
     <ClInclude Include="..\Source\Game\Utility\ColliderManager.h">
       <Filter>Utility\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Game\Threading\RenderData.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Game\Threading\RenderCommander.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">
@@ -74,6 +83,9 @@
     </Filter>
     <Filter Include="Utility\Managers">
       <UniqueIdentifier>{b43f8488-8658-4588-8d8f-69067978f9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{9ddfcce5-17ce-4b6e-85d7-89a6adba8850}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

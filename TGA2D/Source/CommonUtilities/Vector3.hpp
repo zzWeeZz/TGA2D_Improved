@@ -1,3 +1,4 @@
+#pragma once
 #include <math.h>
 #include <cassert>
 #include <stdint.h>
@@ -19,6 +20,7 @@ namespace CommonUtilities
 		Vector3<T>(const Vector3<T>& aVector) = default;
 		//Assignment operator (compiler generated)
 		Vector3<T>& operator=(const Vector3<T>& aVector3) = default;
+
 		//Returns the squared length of the vector
 		T LengthSqr() const;
 		//Returns the length of the vector
@@ -33,8 +35,6 @@ namespace CommonUtilities
 		T Dot(const Vector3<T>& aVector) const;
 		//Returns the cross product of this and aVector
 		Vector3<T> Cross(const Vector3<T>& aVector) const;
-		//Destructor (compiler generated)
-		~Vector3<T>() = default;
 	};
 
 	//för dig tommie :D

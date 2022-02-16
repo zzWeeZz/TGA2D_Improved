@@ -27,6 +27,18 @@ namespace CommonUtilities
 		return myKeyStrokes.test(aKeyCode);
 	}
 
+	bool InputHandler::AnyKeyPressed() const
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			if (myPreviousKeyStroke.test(i) == false && myPreviousKeyStroke.test(i) == myKeyStrokes.test(i))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
 	bool InputHandler::MouseButtonPressed(int aKeyIndex) const
 	{
 		return myCurrentMouseInputs.test(aKeyIndex);
