@@ -37,13 +37,14 @@ CGame::CGame()
 {
 }
 
-
 CGame::~CGame()
 {
 	myLogicThread->join();
 	myLoaderThread->join();
 	delete myLogicThread;
 	delete myLoaderThread;
+	myLoaderThread = nullptr;
+	myLoaderThread = nullptr;
 }
 
 
@@ -62,7 +63,9 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// this message is read when the window is closed
 	case WM_DESTROY:
 	{
+		
 		// close the application entirely
+		
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -95,17 +98,20 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 		system("pause");
 		return false;
 	}
-	myLoaderThread = new std::thread(&CGame::LoaderThread, std::ref(*this));
-	myLogicThread = new std::thread(&CGame::LogicThread, std::ref(*this));
-
-
-	
 	// End of program
 	return true;
 }
 
+void CGame::SetCloseThreadBool(const bool& aFlag)
+{
+	myCloseBool = aFlag;
+}
+
 void CGame::InitCallBack()
 {
+	myLoaderThread = new std::thread(&CGame::LoaderThread, std::ref(*this));
+	myLogicThread = new std::thread(&CGame::LogicThread, std::ref(*this));
+
 }
 
 void CGame::RenderCallBack(RenderCommander* aRenderCommander)
@@ -116,23 +122,22 @@ void CGame::RenderCallBack(RenderCommander* aRenderCommander)
 	{
 		myRenderTransferMutex.lock();
 		toRenderData.push_back(myRenderData[0]);
-		
+
 		myRenderData.erase(myRenderData.begin());
 		myRenderTransferMutex.unlock();
 	}
-	myDoneRender = true;
+	std::unique_lock lock(myRenderTransferMutex);
 	for (auto& [myInstanceData, mySharedData] : toRenderData)
 	{
 		spriteDrawer.Draw(mySharedData, myInstanceData);
 	}
-	myDoneRender = false;
-	std::this_thread::yield();
+	myCondition.notify_all();
 }
 
 void CGame::LoaderThread()
 {
-	auto res = Tga2D::CEngine::GetInstance()->GetTargetSize();
-	while (true)
+	const auto res = Tga2D::CEngine::GetInstance()->GetTargetSize();
+	while (!myCloseBool)
 	{
 		if (!myLogicData.empty())
 		{
@@ -140,7 +145,7 @@ void CGame::LoaderThread()
 			newRenderData.mySharedData.myTexture = myLogicData[0].myTexture;
 			newRenderData.myInstanceData.myPosition = { myLogicData[0].myPosition.x / res.x, myLogicData[0].myPosition.y / res.y };
 			newRenderData.myInstanceData.myPivot = { myLogicData[0].myPivot.x, myLogicData[0].myPivot.y };
-			newRenderData.myInstanceData.mySize = newRenderData.mySharedData.myTexture->mySize / res.y;
+			newRenderData.myInstanceData.mySize = newRenderData.mySharedData.myTexture->mySize;
 			newRenderData.myInstanceData.mySizeMultiplier = { myLogicData[0].mySizeMultiplier.x, myLogicData[0].mySizeMultiplier.y };
 			newRenderData.myInstanceData.myUV = { myLogicData[0].myUV.x, myLogicData[0].myUV.y };
 			newRenderData.myInstanceData.myUVScale = { myLogicData[0].myUVScale.x, myLogicData[0].myUVScale.y };
@@ -154,8 +159,8 @@ void CGame::LoaderThread()
 			std::unique_lock lock(myRenderTransferMutex);
 			myRenderData.emplace_back(newRenderData);
 
-			std::this_thread::yield();
 		}
+		std::this_thread::yield();
 	}
 }
 
@@ -163,26 +168,26 @@ void CGame::LogicThread()
 {
 	// Init on thread
 	   //TODO: handle Init of thread
+	myRenderCommander.InitCommander(&myTempLogicData);
 	myTimer.Update();
-	std::vector<std::shared_ptr<LogicData>> newLogicData;
-	myRenderCommander.InitCommander(&newLogicData);
 	myGameWorld.Init();
 
-	while (true)
+	while (!myCloseBool)
 	{
 		myTimer.Update();
 		myInputHandler.UpdateInput();
 		// gameloop
 		myGameWorld.Render(&myRenderCommander);
 		myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
-		std::unique_lock lock( myLogicTransferMutex);
-		myCondition.wait(lock, [&] { return myDoneRender; });
-		for (int i = 0; i < newLogicData.size(); ++i)
+		std::unique_lock lock(myLogicTransferMutex);
+		myCondition.wait(lock);
+		for (auto data : myTempLogicData)
 		{
-			myLogicData.emplace_back(*newLogicData[i]);
+			myLogicData.emplace_back(data);
 		}
-		newLogicData.clear();
-
+		myLogicData = myTempLogicData;
+		myTempLogicData.clear();
 		std::this_thread::yield();
 	}
+	std::cout << "Closing Logic\n";
 }

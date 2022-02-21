@@ -1,22 +1,21 @@
 #include "stdafx.h"
 #include "RenderCommander.h"
 
-RenderCommander::RenderCommander()
+RenderCommander::RenderCommander() : myLogicdataPointer(nullptr)
 {
-	myLogicdataPointer = nullptr;
 }
 
-RenderCommander::RenderCommander(std::vector<std::shared_ptr<LogicData>>* aLogicDataContainer) : myLogicdataPointer(
+RenderCommander::RenderCommander(std::vector<LogicData>* aLogicDataContainer) : myLogicdataPointer(
 	aLogicDataContainer)
 {
 }
 
-void RenderCommander::InitCommander(std::vector<std::shared_ptr<LogicData>>* aLogicDataContainer)
+void RenderCommander::InitCommander(std::vector<LogicData>* aLogicDataContainer)
 {
 	myLogicdataPointer = aLogicDataContainer;
 }
 
-void RenderCommander::AddRenderCommand(std::shared_ptr<LogicData> aLogicData) const
+void RenderCommander::AddRenderCommand(LogicData aLogicData) const
 {
 	myLogicdataPointer->emplace_back(aLogicData);
 }

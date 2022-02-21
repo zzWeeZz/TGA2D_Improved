@@ -22,7 +22,9 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myLogicData.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("square.dds");
+	myLogicData.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/tga_logo.dds");
+	myLogicData.myPosition.y = 350;
+	myValue = 1;
 }
 
 void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler)
@@ -30,10 +32,18 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTimeDelta;
 	aTotalTime;
 	aInputHandler;
-	myLogicData.myPosition.x += aTimeDelta;
+	myLogicData.myPosition.x += myValue * aTimeDelta * 500;
+	if (myLogicData.myPosition.x >= 1000)
+	{
+		myValue = -1;
+	}
+	else if (myLogicData.myPosition.x <= 250)
+	{
+		myValue = 1;
+	}
 }
 
 void CGameWorld::Render(RenderCommander* aRenderCommander)
 {
-	aRenderCommander->AddRenderCommand(std::make_shared <LogicData>(myLogicData));
+	aRenderCommander->AddRenderCommand(myLogicData);
 }

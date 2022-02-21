@@ -50,14 +50,14 @@ void CloseConsole()
 {
 #pragma warning( push )
 #pragma warning( disable : 4996 )
-	fclose(stdin); 
+	fclose(stdin);
 	fclose(stdout);
 	fclose(stderr);
 #pragma warning( pop )
 }
 
 int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, char*, int /*nShowCmd*/)
-{	
+{
 #ifdef USE_CONSOLE_COMMAND
 	InitConsole();
 #endif
@@ -72,10 +72,10 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, char*, 
 #pragma endregion MainFunction
 
 
-void Init() 
-{ 
+void Init()
+{
 	{
-		CGame myGame;
+	CGame myGame;
 
 		int version[] = { PRODUCTVER };
 		std::wstring versionNumber;
@@ -92,10 +92,13 @@ void Init()
 
 		if (Tga2D::CEngine::GetInstance())
 			Tga2D::CEngine::GetInstance()->RunUpdateLoop();
+		myGame.SetCloseThreadBool(true);
 	}
 
 	if (Tga2D::CEngine::GetInstance())
+	{
 		Tga2D::CEngine::GetInstance()->Shutdown();
+	}
 }
 
 

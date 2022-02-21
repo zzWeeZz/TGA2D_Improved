@@ -13,6 +13,7 @@ public:
 	CGame();
 	~CGame();
 	bool Init(const std::wstring& aVersion = L"", HWND aHWND = nullptr);
+	void SetCloseThreadBool(const bool& aFlag);
 private:
 	void InitCallBack();
 	void RenderCallBack(RenderCommander* aRenderCommander);
@@ -25,13 +26,14 @@ private:
 	CommonUtilities::Timer myTimer;
 
 	//Threading Data
-	bool myDoneRender;
 	RenderCommander myRenderCommander;
 	std::thread* myLoaderThread;
 	std::thread* myLogicThread;
 	std::condition_variable myCondition;
+	std::atomic<bool> myCloseBool;
 	std::mutex myLogicTransferMutex;
 	std::mutex myRenderTransferMutex;
 	std::vector<LogicData> myLogicData;
+	std::vector<LogicData> myTempLogicData;
 	std::vector<RenderData> myRenderData;
 };

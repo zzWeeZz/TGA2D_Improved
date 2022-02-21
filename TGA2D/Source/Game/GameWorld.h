@@ -26,5 +26,6 @@ public:
 private:
 	
 	LogicData myLogicData;
+	char myValue;
 
 };
