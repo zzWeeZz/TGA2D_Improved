@@ -16,7 +16,7 @@ public:
 	void SetCloseThreadBool(const bool& aFlag);
 private:
 	void InitCallBack();
-	void RenderCallBack(RenderCommander* aRenderCommander);
+	void RenderCallBack();
 	void LoaderThread();
 	void LogicThread();
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -30,7 +30,7 @@ private:
 	std::thread* myLoaderThread;
 	std::thread* myLogicThread;
 	std::condition_variable myCondition;
-	std::atomic<bool> myCloseBool;
+	bool myCloseBool;
 	std::mutex myLogicTransferMutex;
 	std::mutex myRenderTransferMutex;
 	std::vector<LogicData> myLogicData;

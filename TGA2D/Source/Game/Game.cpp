@@ -39,8 +39,6 @@ CGame::CGame()
 
 CGame::~CGame()
 {
-	myLogicThread->join();
-	myLoaderThread->join();
 	delete myLogicThread;
 	delete myLoaderThread;
 	myLoaderThread = nullptr;
@@ -64,9 +62,12 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 	{
 		
-		// close the application entirely
-		
 		PostQuitMessage(0);
+		// close the application entirely
+		myCloseBool = true;
+		myCondition.notify_all();
+		myLogicThread->join();
+		myLoaderThread->join();
 		return 0;
 	}
 	}
@@ -77,10 +78,14 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 {
+	if(myCloseBool)
+	{
+		return false;
+	}
 	Tga2D::SEngineCreateParameters createParameters;
 	createParameters.myInitFunctionToCall = [this] {InitCallBack(); };
 	createParameters.myWinProcCallback = [this](HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {return WinProc(hWnd, message, wParam, lParam); };
-	createParameters.myUpdateFunctionToCall = [this] {RenderCallBack(&myRenderCommander); };
+	createParameters.myUpdateFunctionToCall = [this] {RenderCallBack(); };
 	createParameters.myApplicationName = L"TGA 2D " + BUILD_NAME + L"[" + aVersion + L"] ";
 	createParameters.myClearColor = { 0.4f, 0.4f, 0.4f, 1 };
 	//createParameters.myPreferedMultiSamplingQuality = Tga2D::EMultiSamplingQuality::High;
@@ -88,7 +93,6 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 		Tga2D::EDebugFeature::Mem |
 		Tga2D::EDebugFeature::Drawcalls |
 		Tga2D::EDebugFeature::Cpu |
-		Tga2D::EDebugFeature::Filewatcher |
 		Tga2D::EDebugFeature::OptimizeWarnings |
 		Tga2D::EDebugFeature::FpsGraph;
 
@@ -114,7 +118,7 @@ void CGame::InitCallBack()
 
 }
 
-void CGame::RenderCallBack(RenderCommander* aRenderCommander)
+void CGame::RenderCallBack()
 {
 	Tga2D::CSpriteDrawer& spriteDrawer(Tga2D::CEngine::GetInstance()->GetDirect3D().GetSpriteDrawer());
 	std::vector<RenderData> toRenderData;
@@ -171,12 +175,10 @@ void CGame::LogicThread()
 	myRenderCommander.InitCommander(&myTempLogicData);
 	myTimer.Update();
 	myGameWorld.Init();
-
 	while (!myCloseBool)
 	{
 		myTimer.Update();
 		myInputHandler.UpdateInput();
-		// gameloop
 		myGameWorld.Render(&myRenderCommander);
 		myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
 		std::unique_lock lock(myLogicTransferMutex);
@@ -185,9 +187,8 @@ void CGame::LogicThread()
 		{
 			myLogicData.emplace_back(data);
 		}
-		myLogicData = myTempLogicData;
 		myTempLogicData.clear();
-		std::this_thread::yield();
+		lock.unlock();
 	}
 	std::cout << "Closing Logic\n";
 }

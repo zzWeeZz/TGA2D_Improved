@@ -22,5 +22,5 @@ void RenderCommander::AddRenderCommand(LogicData aLogicData) const
 
 RenderCommander::~RenderCommander()
 {
-	delete myLogicdataPointer;
+	//delete myLogicdataPointer;
 }

@@ -92,7 +92,7 @@ void Init()
 
 		if (Tga2D::CEngine::GetInstance())
 			Tga2D::CEngine::GetInstance()->RunUpdateLoop();
-		myGame.SetCloseThreadBool(true);
+		//myGame.SetCloseThreadBool(true);
 	}
 
 	if (Tga2D::CEngine::GetInstance())
