@@ -8,10 +8,10 @@ class RenderCommander
 {
 public:
 	RenderCommander();
-	RenderCommander(std::vector<LogicData>* aLogicDataContainer);
-	void InitCommander(std::vector<LogicData>* aLogicDataContainer);
-	void AddRenderCommand(LogicData aLogicData) const;
+	RenderCommander(std::vector<Logic>* aLogicDataContainer);
+	void InitCommander(std::vector<Logic>* aLogicDataContainer);
+	void AddRenderCommand(Logic aLogicData) const;
 	~RenderCommander();
 private:
-	std::vector<LogicData>* myLogicdataPointer;
+	std::vector<Logic>* myLogicdataPointer;
 };

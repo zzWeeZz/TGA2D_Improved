@@ -13,7 +13,6 @@ namespace Tga2D
 }
 
 class RenderCommander;
-class LogicData;
 
 class CGameWorld
 {
@@ -24,8 +23,6 @@ public:
 	void Render(RenderCommander* aRenderCommander);
 	~CGameWorld();
 private:
-	
-	LogicData myLogicData;
+	LogicData<DataType::Sprite> myLogicData;
 	char myValue;
-
 };

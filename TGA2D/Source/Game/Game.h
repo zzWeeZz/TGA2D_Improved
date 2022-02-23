@@ -33,7 +33,7 @@ private:
 	bool myCloseBool;
 	std::mutex myLogicTransferMutex;
 	std::mutex myRenderTransferMutex;
-	std::vector<LogicData> myLogicData;
-	std::vector<LogicData> myTempLogicData;
+	std::vector<Logic> myLogicData;
+	std::vector<Logic> myTempLogicData;
 	std::vector<RenderData> myRenderData;
 };
