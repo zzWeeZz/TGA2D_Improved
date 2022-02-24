@@ -20,9 +20,12 @@ public:
 	CGameWorld(); 
 	void Init();
 	void Update(float aTimeDelta, float aTotalTime, CommonUtilities::InputHandler& aInputHandler); 
-	void Render(RenderCommander* aRenderCommander);
+	void Render(const RenderCommander* aRenderCommander);
 	~CGameWorld();
 private:
-	LogicData<DataType::Sprite> myLogicData;
+	std::vector<LogicData<DataType::Sprite>> myLogicData;
+	std::vector<LogicData<DataType::Sprite>> myOtherLogicData;
+	LogicData<DataType::Text> myText;
 	char myValue;
+	char myOtherValue;
 };

@@ -3,6 +3,9 @@
 #include <tga2d/sprite/sprite.h>
 #include <memory>
 
+#include "tga2d/text/text.h"
+#include "tga2d/texture/Texture.h"
+
 namespace Tga2D
 {
 	class CTexture;
@@ -10,7 +13,6 @@ namespace Tga2D
 }
 
 class RenderData;
-
 enum class DataType
 {
 	Sprite,
@@ -21,8 +23,8 @@ class Logic
 {
 public:
 	int myRenderOrder = 1;
-	const Tga2D::CTexture* myTexture = nullptr;
-	const Tga2D::CText* myText = nullptr;
+	Tga2D::CTexture* myTexture = nullptr;
+	Tga2D::CText* myText = nullptr;
 	CommonUtilities::Vector2<float> myPosition = { 500, 500 };
 	CommonUtilities::Vector2<float> myPivot = { 0.5f, 0.5f };
 	CommonUtilities::Vector2<float> mySizeMultiplier = { 1.0f, 1.0f };
@@ -32,19 +34,24 @@ public:
 	Tga2D::STextureRext myTextureRect = { 0.0f, 0.0f, 1.0f, 1.0f };
 	float myRotation = 0.f;
 	bool myIsHidden = false;
+	DataType myDataType;
 };
 
 template<DataType aDataType>
 class LogicData : public Logic
 {
 public:
-	DataType myDataType = aDataType;
+	LogicData()
+	{
+		myDataType = aDataType;
+	}
 };
 
 class RenderData
 {
 public:
-	Tga2D::SSpriteInstanceData myInstanceData;
+	std::vector<Tga2D::SSpriteInstanceData> myInstanceData;
 	Tga2D::SSpriteSharedData mySharedData;
 	Tga2D::CText* myText;
+	DataType myDataType;
 };

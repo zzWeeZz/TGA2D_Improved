@@ -22,8 +22,26 @@ CGameWorld::~CGameWorld()
 }
 void CGameWorld::Init()
 {
-	myLogicData.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/tga_logo.dds");
-	myLogicData.myPosition.y = 350;
+	for (int i = 0; i < 100; ++i)
+	{
+		LogicData<DataType::Sprite> data;
+		data.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/tga_logo.dds");
+		data.myPosition.y = 350;
+		myLogicData.emplace_back(data);
+	}
+	for (int i = 0; i < 100; ++i)
+	{
+		LogicData<DataType::Sprite> data;
+		data.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture("Sprites/tga_logo2.dds");
+		data.mySizeMultiplier = { 0.5f, 0.5f };
+		data.myColor = { 0,1, 0, 1 };
+		data.myPosition.y = 350;
+		myOtherLogicData.emplace_back(data);
+	}
+	myText.myText = new Tga2D::CText();
+	myText.myText->SetText("hej!");
+	myText.myText->SetPosition({0.5f, 0.5f});
+	myOtherValue = 1;
 	myValue = 1;
 }
 
@@ -32,18 +50,38 @@ void CGameWorld::Update(float aTimeDelta, float aTotalTime, CommonUtilities::Inp
 	aTimeDelta;
 	aTotalTime;
 	aInputHandler;
-	myLogicData.myPosition.x += myValue * aTimeDelta * 500;
-	if (myLogicData.myPosition.x >= 1000)
+	for (auto& element : myLogicData)
 	{
-		myValue = -1;
+
+		element.myPosition.x += myValue * aTimeDelta * 500;
+		if (element.myPosition.x >= 1000)
+		{
+			myValue = -1;
+		}
+		else if (element.myPosition.x <= 250)
+		{
+			myValue = 1;
+		}
 	}
-	else if (myLogicData.myPosition.x <= 250)
+	for (auto& element : myOtherLogicData)
 	{
-		myValue = 1;
+
+		element.myPosition.y += myOtherValue * aTimeDelta * 500;
+		element.myRotation += aTimeDelta * 10;
+		if (element.myPosition.y >= 720)
+		{
+			myOtherValue = -1;
+		}
+		else if (element.myPosition.y <= 0)
+		{
+			myOtherValue = 1;
+		}
 	}
 }
 
-void CGameWorld::Render(RenderCommander* aRenderCommander)
+void CGameWorld::Render(const RenderCommander* aRenderCommander)
 {
 	aRenderCommander->AddRenderCommand(myLogicData);
+	aRenderCommander->AddRenderCommand(myOtherLogicData);
+	aRenderCommander->AddRenderCommand(myText);
 }

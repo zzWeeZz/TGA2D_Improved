@@ -61,11 +61,12 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// this message is read when the window is closed
 	case WM_DESTROY:
 	{
-		
+
 		PostQuitMessage(0);
 		// close the application entirely
 		myCloseBool = true;
-		myCondition.notify_all();
+		myConditionRender.notify_all();
+		myConditionLogic.notify_all();
 		myLogicThread->join();
 		myLoaderThread->join();
 		return 0;
@@ -78,7 +79,7 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 {
-	if(myCloseBool)
+	if (myCloseBool)
 	{
 		return false;
 	}
@@ -115,55 +116,88 @@ void CGame::InitCallBack()
 {
 	myLoaderThread = new std::thread(&CGame::LoaderThread, std::ref(*this));
 	myLogicThread = new std::thread(&CGame::LogicThread, std::ref(*this));
-
 }
 
 void CGame::RenderCallBack()
 {
 	Tga2D::CSpriteDrawer& spriteDrawer(Tga2D::CEngine::GetInstance()->GetDirect3D().GetSpriteDrawer());
 	std::vector<RenderData> toRenderData;
+	std::unique_lock lock(myRenderTransferMutex);
+	myConditionLogic.wait(lock);
 	while (!myRenderData.empty())
 	{
-		myRenderTransferMutex.lock();
-		toRenderData.push_back(myRenderData[0]);
-
+		switch (myRenderData[0].myDataType)
+		{
+		case DataType::Sprite:
+			for (auto& myData : myRenderData)
+			{
+				spriteDrawer.Draw(myData.mySharedData, &myData.myInstanceData[0], myData.myInstanceData.size());
+			}
+			break;
+		case DataType::Text:
+			for (auto& myData : myRenderData)
+			{
+				myData.myText->Render();
+			}
+			break;
+		default: ;
+		}
+		
+		
 		myRenderData.erase(myRenderData.begin());
-		myRenderTransferMutex.unlock();
 	}
-	std::unique_lock lock(myRenderTransferMutex);
-	for (auto& [myInstanceData, mySharedData] : toRenderData)
+	myConditionRender.notify_all();
+}
+
+Tga2D::SSpriteInstanceData CGame::SwapLogicDataToRenderData(const RenderData& aRenderData)
+{
+	const auto res = Tga2D::CEngine::GetInstance()->GetTargetSize();
+	Tga2D::SSpriteInstanceData instanceData;
+	if (!myLogicData.empty())
 	{
-		spriteDrawer.Draw(mySharedData, myInstanceData);
+		instanceData.myPosition = { myLogicData[0].myPosition.x / res.x, myLogicData[0].myPosition.y / res.y };
+		instanceData.myPivot = { myLogicData[0].myPivot.x, myLogicData[0].myPivot.y };
+		instanceData.mySize = (aRenderData.myDataType == DataType::Sprite) ? aRenderData.mySharedData.myTexture->mySize : Tga2D::Vector2<float>(0, 0);
+		instanceData.mySizeMultiplier = { myLogicData[0].mySizeMultiplier.x, myLogicData[0].mySizeMultiplier.y };
+		instanceData.myUV = { myLogicData[0].myUV.x, myLogicData[0].myUV.y };
+		instanceData.myUVScale = { myLogicData[0].myUVScale.x, myLogicData[0].myUVScale.y };
+		instanceData.myColor = {
+			myLogicData[0].myColor.x, myLogicData[0].myColor.y, myLogicData[0].myColor.z,
+			myLogicData[0].myColor.w
+		};
+		instanceData.myTextureRect = myLogicData[0].myTextureRect;
+		instanceData.myRotation = myLogicData[0].myRotation;
+		instanceData.myIsHidden = myLogicData[0].myIsHidden;
 	}
-	myCondition.notify_all();
+	return instanceData;
 }
 
 void CGame::LoaderThread()
 {
-	const auto res = Tga2D::CEngine::GetInstance()->GetTargetSize();
+
 	while (!myCloseBool)
 	{
-		if (!myLogicData.empty())
+		while (!myLogicData.empty())
 		{
 			RenderData newRenderData;
 			newRenderData.mySharedData.myTexture = myLogicData[0].myTexture;
-			newRenderData.myInstanceData.myPosition = { myLogicData[0].myPosition.x / res.x, myLogicData[0].myPosition.y / res.y };
-			newRenderData.myInstanceData.myPivot = { myLogicData[0].myPivot.x, myLogicData[0].myPivot.y };
-			newRenderData.myInstanceData.mySize = newRenderData.mySharedData.myTexture->mySize;
-			newRenderData.myInstanceData.mySizeMultiplier = { myLogicData[0].mySizeMultiplier.x, myLogicData[0].mySizeMultiplier.y };
-			newRenderData.myInstanceData.myUV = { myLogicData[0].myUV.x, myLogicData[0].myUV.y };
-			newRenderData.myInstanceData.myUVScale = { myLogicData[0].myUVScale.x, myLogicData[0].myUVScale.y };
-			newRenderData.myInstanceData.myColor = { myLogicData[0].myColor.x, myLogicData[0].myColor.y,myLogicData[0].myColor.z,myLogicData[0].myColor.w };
-			newRenderData.myInstanceData.myTextureRect = myLogicData[0].myTextureRect;
-			newRenderData.myInstanceData.myRotation = myLogicData[0].myRotation;
-			newRenderData.myInstanceData.myIsHidden = myLogicData[0].myIsHidden;
-			myLogicTransferMutex.lock();
-			myLogicData.erase(myLogicData.begin());
-			myLogicTransferMutex.unlock();
+			newRenderData.myText = myLogicData[0].myText;
+			while (!myLogicData.empty() && newRenderData.mySharedData.myTexture == myLogicData[0].myTexture)
+			{
+				newRenderData.myDataType = myLogicData[0].myDataType;
+				Tga2D::SSpriteInstanceData instanceData = SwapLogicDataToRenderData(newRenderData);
+
+				std::unique_lock lock(myLogicTransferMutex);
+				myLogicData.erase(myLogicData.begin());
+				newRenderData.myInstanceData.emplace_back(instanceData);
+				lock.unlock();
+			}
+
 			std::unique_lock lock(myRenderTransferMutex);
 			myRenderData.emplace_back(newRenderData);
 
 		}
+		myConditionLogic.notify_one();
 		std::this_thread::yield();
 	}
 }
@@ -182,12 +216,13 @@ void CGame::LogicThread()
 		myGameWorld.Render(&myRenderCommander);
 		myGameWorld.Update(myTimer.GetDeltaTime(), static_cast<float>(myTimer.GetTotalTime()), myInputHandler);
 		std::unique_lock lock(myLogicTransferMutex);
-		myCondition.wait(lock);
+		myConditionRender.wait(lock);
 		for (auto data : myTempLogicData)
 		{
 			myLogicData.emplace_back(data);
 		}
 		myTempLogicData.clear();
+
 		lock.unlock();
 	}
 	std::cout << "Closing Logic\n";

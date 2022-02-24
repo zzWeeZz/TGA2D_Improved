@@ -17,6 +17,7 @@ public:
 private:
 	void InitCallBack();
 	void RenderCallBack();
+	Tga2D::SSpriteInstanceData SwapLogicDataToRenderData(const RenderData& aRenderData);
 	void LoaderThread();
 	void LogicThread();
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -24,12 +25,14 @@ private:
 	CGameWorld myGameWorld;
 	CommonUtilities::InputHandler myInputHandler;
 	CommonUtilities::Timer myTimer;
+	Tga2D::CText* myLogicFpsText;
 
 	//Threading Data
 	RenderCommander myRenderCommander;
 	std::thread* myLoaderThread;
 	std::thread* myLogicThread;
-	std::condition_variable myCondition;
+	std::condition_variable myConditionRender;
+	std::condition_variable myConditionLogic;
 	bool myCloseBool;
 	std::mutex myLogicTransferMutex;
 	std::mutex myRenderTransferMutex;
