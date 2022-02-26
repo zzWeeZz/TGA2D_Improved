@@ -1,6 +1,5 @@
 #pragma once
 #include <..\..\Source\CommonUtilities\InputHandler.hpp>
-#include "Character.h"
 #include "Threading/RenderData.hpp"
 
 #define PI 3.14159265358979323846f

@@ -7,51 +7,34 @@
 #include "tga2d/sprite/sprite.h"
 #include "tga2d/texture/texture_manager.h"
 
-void Sprite::Init(CommonUtilities::Vector2<float>* aPosition, CommonUtilities::Vector2<float>* aSize, float* aRotation, Tga2D::CColor* aColor)
+void Sprite::Init(const char* aSpritePath, const Vector2f& aPosition, const Vector2f& aSizeMultiplier)
 {
-	myPosition = aPosition;
-	mySize = aSize;
-	myRotation = aRotation;
-	myColor = aColor;
-}
-
-void Sprite::GiveSpritePath(const char* aSpritePath)
-{
-	myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture(aSpritePath);
+ 	myData.myTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture(aSpritePath);
+	myData.myPosition = aPosition;
+	myData.mySizeMultiplier = aSizeMultiplier;
 }
 
 void Sprite::GiveTexture(Tga2D::CTexture* aTexture)
 {
-	myTexture = aTexture;
+	myData.myTexture = aTexture;
 }
 
-void Sprite::Render()
+void Sprite::SetPosition(const Vector2f& aPosition)
 {
-	const auto resolution = Tga2D::CEngine::GetInstance()->GetTargetSize();
-	Tga2D::CSpriteDrawer& spriteDrawer(Tga2D::CEngine::GetInstance()->GetDirect3D().GetSpriteDrawer());
-	Tga2D::SSpriteSharedData sharedData = {};
-	sharedData.myTexture = myTexture;
-
-	Tga2D::SSpriteInstanceData spriteInstance = {};
-	spriteInstance.myPivot = { 0.5f, 0.5f };
-	spriteInstance.myPosition = { myPosition->x / resolution.myX, myPosition->y / resolution.myY };
-	spriteInstance.mySize = { mySize->x / resolution.myY, mySize->y / resolution.myY };
-	spriteInstance.myRotation = *myRotation;
-	spriteInstance.myColor = *myColor;
-
-	spriteDrawer.Draw(sharedData, spriteInstance);
+	myData.myPosition = aPosition;
 }
 
-Sprite::~Sprite()
+LogicData<DataType::Sprite>& Sprite::GetSpriteData()
 {
-	myTexture = nullptr;
-	myPosition = nullptr;
-	mySize = nullptr;
-	myRotation = nullptr;
-	myColor = nullptr;
-	delete myTexture;
-	delete myPosition;
-	delete mySize;
-	delete myRotation;
-	delete myColor;
+	return myData;
+}
+
+Vector2f Sprite::GetPosition() const
+{
+	return myData.myPosition;
+}
+
+void Sprite::Render(const RenderCommander* aRenderCommander) const
+{
+	aRenderCommander->AddRenderCommand(myData);
 }

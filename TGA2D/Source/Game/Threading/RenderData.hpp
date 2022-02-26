@@ -2,7 +2,7 @@
 #include <../CommonUtilities/Vector.hpp>
 #include <tga2d/sprite/sprite.h>
 #include <memory>
-
+#include <vector>
 #include "tga2d/text/text.h"
 #include "tga2d/texture/Texture.h"
 
@@ -47,6 +47,8 @@ public:
 	}
 };
 
+typedef LogicData<DataType::Sprite> SpriteData;
+typedef LogicData<DataType::Text> TextData;
 class RenderData
 {
 public:

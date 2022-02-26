@@ -7,7 +7,6 @@
 #include "tga2d/d3d/direct_3d.h"
 #include "tga2d/drawers/sprite_drawer.h"
 #include "tga2d/texture/Texture.h"
-#include "Utility/ColliderManager.h"
 #define DEBUG_FPS_OF_THREADS 1
 
 namespace Tga2D
